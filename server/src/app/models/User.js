@@ -3,10 +3,41 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
-        name: DataTypes.STRING,
-        email: DataTypes.STRING,
-        password: DataTypes.VIRTUAL,
-        password_hash: DataTypes.STRING
+        name: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "Name cannot be empty"
+                }
+            }
+        },
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "Email cannot be empty"
+                },
+                isEmail: {
+                    msg: "Invalid email"
+                }
+            }
+        },
+        password: {
+            type: DataTypes.VIRTUAL,
+            validate: {
+                notEmpty: {
+                    msg: "Password cannot be empty"
+                }
+            }
+        },
+        password_hash: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "Password hash cannot be empty"
+                }
+            }
+        }
     }, {
         hooks: {
             beforeSave: async user => {

@@ -8,7 +8,7 @@ describe('Authentication', () => {
     beforeEach(async () => {
         await truncate();
     })
-
+    
     it('should authenticate with valid credentials', async () => {
         const user = await factory.create('User', {
             password: '123456'
@@ -66,7 +66,7 @@ describe('Authentication', () => {
         expect(response.status).toBe(200);
     });
 
-    it('should not be able to access private routes withou jwt token', async () => {
+    it('should not be able to access private routes without jwt token', async () => {
         const response = await request(app)
             .get('/dashboard')
 
