@@ -33,18 +33,5 @@ describe('Registration', () => {
 
         expect(response.status).toBe(422);
     });
-
-    it('should not create new user providing invalid data', async () => {
-        const response = await request(app)
-            .post('/users')
-            .send({
-                name: faker.name.findName(),
-                email: 'myinvalidemail',
-                password: faker.internet.password()
-            })
-
-        expect(response.status).toBe(400)
-    });
-    
     
 });
