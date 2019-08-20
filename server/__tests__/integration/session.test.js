@@ -10,9 +10,7 @@ describe('Authentication', () => {
     })
     
     it('should authenticate with valid credentials', async () => {
-        const user = await factory.create('User', {
-            password: '123456'
-        });
+        const user = await factory.create('User', {password: '123456'});
 
         const response = await request(app)
             .post('/sessions')

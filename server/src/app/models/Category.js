@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Category.associate = function(models) {
     Category.belongsToMany(models.Deck, {
-      through: 'deck_categories',
+      through: 'DeckCategory',
       as: 'decks',
       foreignKey: 'category_id'
     });
