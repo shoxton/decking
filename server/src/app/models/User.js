@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 module.exports = (sequelize, DataTypes) => {
+
     const User = sequelize.define('User', {
         name: {
             type: DataTypes.STRING,
@@ -47,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     })
+
+    User.associate = function(models) {
+        User.hasMany(models.Deck, {as: 'decks'});
+    }
 
     User.prototype.checkPassword = async function(password) {
         return await bcrypt.compare(password, this.password_hash);

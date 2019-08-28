@@ -1,4 +1,4 @@
-const { Deck } = require('../app/models');
+const { Deck, Category, DeckCategory } = require('../app/models');
 
 class DeckController {
     async index(req, res) {
@@ -8,11 +8,25 @@ class DeckController {
     }
 
     async store(req, res) {
-        const { name, description } = req.body;
-
-        const deck = await Deck.create({name, description});
-
-        res.status(201).json(deck);
+        try {
+            const { name, description, categories } = req.body;
+    
+            const deck = await Deck.create({name, description, user_id: req.userId});
+    
+            categories.forEach(async category => {
+                const [cat, created] = await Category.findOrCreate({where: {name: category}});
+                deck.addCategory(cat);
+            })
+            
+            const response = await Deck.findByPk(deck.id, {include: [{
+                model: Category,
+                as: "categories"
+            }]})
+    
+            res.status(201).json(response);
+        } catch (error) {
+            res.status(400).json(error)
+        }
     }
 }
 
